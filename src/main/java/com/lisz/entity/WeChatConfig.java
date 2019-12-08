@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WeChatConfig {
-	// 从application.properties里面读取
+	// 从application.properties里面读取,下面的setters其实不需要
 	@Value("${WeChat.appID}")
 	private String appID;
 	@Value("${WeChat.appsecret}")
