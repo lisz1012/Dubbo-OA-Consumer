@@ -2,6 +2,7 @@ package com.lisz.controller.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lisz.entity.WeChatConfig;
 
 import weixin.popular.support.TokenManager;
-
+/*
+ * Ticket是网页接口用的， Token是Java API去调接口用的
+ */
+@WebListener  //springboot下要加这个注解
 public class TokenManagerListener implements ServletContextListener {
 
 	private static final Log LOGGER = LogFactory.getLog(TicketManagerListener.class);
