@@ -28,6 +28,7 @@ import com.lisz.entity.WeChatConfig;
 import weixin.popular.api.MenuAPI;
 import weixin.popular.bean.BaseResult;
 import weixin.popular.bean.message.EventMessage;
+import weixin.popular.bean.xmlmessage.XMLImageMessage;
 import weixin.popular.bean.xmlmessage.XMLMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 import weixin.popular.support.ExpireKey;
@@ -46,6 +47,7 @@ public class WeChatController {
 	
 	private static ExpireKey expireKey = new DefaultExpireKey();
 	
+	// 这个API是在微信服务器那边注册登记过的，用户已进入公众号，微信服务器就调用这个API，并把outputStream的内容写回用户端
 	@RequestMapping("signature")
 	@ResponseBody
 	public void signature(@RequestParam Map<String, String> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -93,17 +95,20 @@ public class WeChatController {
 			}
 			
 			// 这里注意：回复消息的FromUserName和ToUserNmae正好跟发进来的eventMessage是相反的，所以先是eventMessage.getFromUserName(),再写eventMessage.getToUserName()
-			XMLMessage xmlMessage = new XMLTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "Hello！");
+			XMLMessage xmlMessage = //new XMLTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "Hello！"); //回复文本消息
+									new XMLImageMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "VYVvnvGPJwhAiBo-Atv6-BXKYPOYF4quaBeEhWTELYtN9M2JOrE6JSiDQ277njSA"); // 回复图片消息
 			// 回复
 			if (null != xmlMessage) {
 				xmlMessage.outputStreamWrite(outputStream);
 			}
 		}
 	}
-// {"toUserName":"gh_03f7e1f8c5e2","fromUserName":"oQ0kGw_fQV55_TIDrCxMFNJqtGKE","createTime":1575874311,"msgType":"event","event":"CLICK","eventKey":"V1001_TODAY_MUSIC","msgId":null,"content":null,"picUrl":null,"mediaId":null,"format":null,"recognition":null,"thumbMediaId":null,"location_X":null,"location_Y":null,"scale":null,"label":null,"title":null,"description":null,"url":null,"ticket":null,"latitude":null,"longitude":null,"precision":null,"status":null,"totalCount":null,"filterCount":null,"sentCount":null,"errorCount":null,"copyrightCheckResult":null,"expiredTime":null,"failTime":null,"failReason":null,"uniqId":null,"poiId":null,"result":null,"msg":null,"chosenBeacon":null,"aroundBeacons":null,"lotteryId":null,"money":null,"bindTime":null,"connectTime":null,"expireTime":null,"vendorId":null,"shopId":null,"deviceNo":null,"keyStandard":null,"keyStr":null,"country":null,"province":null,"city":null,"sex":null,"scene":null,"regionCode":null,"reasonMsg":null,"otherElements":null}
+
+	// 必须在浏览器里刷一下 http://spza8h.natappfree.cc/WeChat/createMenu 才能让这里的新改动生效，这个菜单和createMenu2，哪个被在浏览器注册了，哪个就起作用，后面执行的覆盖前面的
 	@RequestMapping("createMenu")
 	@ResponseBody
 	public BaseResult createMenu() {
+		LOGGER.info("createMenu is called!");
 		String menuString = "{\n" + 
 				"     \"button\":[\n" + 
 				"     {	\n" + 
@@ -121,11 +126,69 @@ public class WeChatController {
 				"            },\n" + 
 				"            {\n" + 
 				"               \"type\":\"click\",\n" + 
-				"               \"name\":\"赞一下我们\",\n" + 
+				"               \"name\":\"赞一下我们吧\",\n" + 
 				"               \"key\":\"V1001_GOOD\"\n" + 
 				"            }]\n" + 
 				"       }]\n" + 
 				" }";
+		BaseResult result = MenuAPI.menuCreate(TokenManager.getDefaultToken(), menuString);
+		return result;
+	}
+	
+	// 必须在浏览器里刷一下 http://spza8h.natappfree.cc/WeChat/createMenu2 才能让这里的新改动生效
+	@RequestMapping("createMenu2")
+	@ResponseBody
+	public BaseResult createMenu2() {
+		LOGGER.info("createMenu2 is called!");
+		String menuString = "{\n" + 
+				"    \"button\": [\n" + 
+				"        {\n" + 
+				"            \"name\": \"扫码\", \n" + 
+				"            \"sub_button\": [\n" + 
+				"                {\n" + 
+				"                    \"type\": \"scancode_waitmsg\", \n" + 
+				"                    \"name\": \"扫码带提示\", \n" + 
+				"                    \"key\": \"rselfmenu_0_0\", \n" + 
+				"                    \"sub_button\": [ ]\n" + 
+				"                }, \n" + 
+				"                {\n" + 
+				"                    \"type\": \"scancode_push\", \n" + 
+				"                    \"name\": \"扫码推事件\", \n" + 
+				"                    \"key\": \"rselfmenu_0_1\", \n" + 
+				"                    \"sub_button\": [ ]\n" + 
+				"                }\n" + 
+				"            ]\n" + 
+				"        }, \n" + 
+				"        {\n" + 
+				"            \"name\": \"发图\", \n" + 
+				"            \"sub_button\": [\n" + 
+				"                {\n" + 
+				"                    \"type\": \"pic_sysphoto\", \n" + 
+				"                    \"name\": \"系统拍照发图\", \n" + 
+				"                    \"key\": \"rselfmenu_1_0\", \n" + 
+				"                   \"sub_button\": [ ]\n" + 
+				"                 }, \n" + 
+				"                {\n" + 
+				"                    \"type\": \"pic_photo_or_album\", \n" + 
+				"                    \"name\": \"拍照或者相册发图\", \n" + 
+				"                    \"key\": \"rselfmenu_1_1\", \n" + 
+				"                    \"sub_button\": [ ]\n" + 
+				"                }, \n" + 
+				"                {\n" + 
+				"                    \"type\": \"pic_weixin\", \n" + 
+				"                    \"name\": \"微信相册发图\", \n" + 
+				"                    \"key\": \"rselfmenu_1_2\", \n" + 
+				"                    \"sub_button\": [ ]\n" + 
+				"                }\n" + 
+				"            ]\n" + 
+				"        }, \n" + 
+				"        {\n" + 
+				"            \"name\": \"发送位置\", \n" + 
+				"            \"type\": \"location_select\", \n" + 
+				"            \"key\": \"rselfmenu_2_0\"\n" + 
+				"        },\n" + 
+				"    ]\n" + 
+				"}";
 		BaseResult result = MenuAPI.menuCreate(TokenManager.getDefaultToken(), menuString);
 		return result;
 	}
