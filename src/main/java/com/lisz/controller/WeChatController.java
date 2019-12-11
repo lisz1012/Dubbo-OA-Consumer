@@ -193,11 +193,10 @@ public class WeChatController {
 		return result;
 	}
 	
-	
+	// 直接outputStream把字节流写出去
 	private boolean OutputStreamWriter(OutputStream outputStream, String text) {
 		try {
 			outputStream.write(text.getBytes("utf-8"));
-			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return false;
