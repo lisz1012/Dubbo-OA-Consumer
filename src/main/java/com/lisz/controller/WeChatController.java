@@ -193,7 +193,7 @@ public class WeChatController {
 		return result;
 	}
 	
-	// 直接outputStream把字节流写出去
+	// 直接outputStream把字节流写出去，这里HttpServletResponse的outputStream不要关闭Servlet会自动将其关闭
 	private boolean OutputStreamWriter(OutputStream outputStream, String text) {
 		try {
 			outputStream.write(text.getBytes("utf-8"));
