@@ -12,7 +12,7 @@ import com.lisz.entity.WeChatConfig;
 
 import weixin.popular.support.TokenManager;
 /*
- * Ticket是网页接口用的， Token是Java API去调接口用的
+ * Ticket是网页接口用的， Token是Java API去调接口用的. TokenManager为的是定期刷新token
  */
 @WebListener  //springboot下要加这个注解
 public class TokenManagerListener implements ServletContextListener {
