@@ -96,7 +96,8 @@ public class WeChatController {
 			
 			// 这里注意：回复消息的FromUserName和ToUserNmae正好跟发进来的eventMessage是相反的，所以先是eventMessage.getFromUserName(),再写eventMessage.getToUserName()
 			XMLMessage xmlMessage = //new XMLTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "Hello！"); //回复文本消息
-									new XMLImageMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "VYVvnvGPJwhAiBo-Atv6-BXKYPOYF4quaBeEhWTELYtN9M2JOrE6JSiDQ277njSA"); // 回复图片消息
+									new XMLImageMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "0IVg8-ywh4qskC42q3TVeTb9zOrW15RypCXw4JrBp1YGy4XjEHv0yPvyZBFMCfvX"); // 回复图片消息
+									//这个文件暂存到了微信服务器，将来要通过文件流的方式转存到FastDFS
 			// 回复
 			if (null != xmlMessage) {
 				xmlMessage.outputStreamWrite(outputStream);
@@ -131,6 +132,7 @@ public class WeChatController {
 				"            }]\n" + 
 				"       }]\n" + 
 				" }";
+		//通知微信服务器：创建公众号菜单，以后关注的人登陆进来之后就能看见了
 		BaseResult result = MenuAPI.menuCreate(TokenManager.getDefaultToken(), menuString);
 		return result;
 	}
@@ -189,6 +191,7 @@ public class WeChatController {
 				"        },\n" + 
 				"    ]\n" + 
 				"}";
+		//通知微信服务器：创建公众号菜单，以后关注的人登陆进来之后就能看见了
 		BaseResult result = MenuAPI.menuCreate(TokenManager.getDefaultToken(), menuString);
 		return result;
 	}
