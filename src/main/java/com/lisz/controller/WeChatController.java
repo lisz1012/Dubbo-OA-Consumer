@@ -95,8 +95,9 @@ public class WeChatController {
 			}
 			
 			// 这里注意：回复消息的FromUserName和ToUserNmae正好跟发进来的eventMessage是相反的，所以先是eventMessage.getFromUserName(),再写eventMessage.getToUserName()
-			XMLMessage xmlMessage = //new XMLTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "Hello！"); //回复文本消息
-									new XMLImageMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "0IVg8-ywh4qskC42q3TVeTb9zOrW15RypCXw4JrBp1YGy4XjEHv0yPvyZBFMCfvX"); // 回复图片消息
+			// 其中fromUserName就是openID，拿着它可以得到用户的个人信息。access_token是我们的服务器和微信服务器交互时用的
+			XMLMessage xmlMessage = new XMLTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "请先<a href='http://aj6ja8.natappfree.cc/profile/my'>完善一下信息</a>"); //回复文本消息
+									//new XMLImageMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "0IVg8-ywh4qskC42q3TVeTb9zOrW15RypCXw4JrBp1YGy4XjEHv0yPvyZBFMCfvX"); // 回复图片消息
 									//这个文件暂存到了微信服务器，将来要通过文件流的方式转存到FastDFS
 			// 回复
 			if (null != xmlMessage) {
