@@ -1,4 +1,4 @@
-package com.lisz.controller;
+package com.lisz.controller.filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -20,7 +20,7 @@ import com.lisz.entity.WeChatConfig;
 
 import weixin.popular.bean.user.User;
 
-@WebFilter(urlPatterns = "/*")
+@WebFilter(filterName = "WeChatAuthFilter", urlPatterns = "/profile/*")
 public class WeChatAuthFilter implements Filter {
 
 	private static final Log LOGGER = LogFactory.getLog(WeChatAuthFilter.class);
@@ -42,7 +42,7 @@ public class WeChatAuthFilter implements Filter {
 		User user = (User)request.getSession().getAttribute("user");
 		if (null == user) {
 			String uri = request.getRequestURI();
-			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + weChatConfig.getAppID() + "&redirect_uri=http://http://aj6ja8.natappfree.cc/auth?uri=" + uri + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect\n";
+			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + weChatConfig.getAppID() + "&redirect_uri=http://duu3ys.natappfree.cc/auth?uri=" + uri + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect\n";
 			response.sendRedirect(url);
 		} else {
 			LOGGER.info("user: " + ToStringBuilder.reflectionToString(user));

@@ -16,7 +16,6 @@ import com.lisz.entity.WeChatConfig;
 import weixin.popular.api.SnsAPI;
 import weixin.popular.bean.sns.SnsToken;
 import weixin.popular.bean.user.User;
-import weixin.popular.support.TokenManager;
 
 @Controller
 @RequestMapping("/auth")
@@ -45,6 +44,7 @@ public class AuthController {
 		
 		String uri = param.get("uri");
 		
-		return "";
+		// 访问受限的那个uri
+		return "redirect:" + uri;
 	}
 }

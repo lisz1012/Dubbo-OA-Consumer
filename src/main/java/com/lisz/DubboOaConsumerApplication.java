@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})//这里为了不让springboot去找data source的url
-@ServletComponentScan(basePackages = "com.lisz.controller.listener")
+@ServletComponentScan(basePackages = {"com.lisz.controller.listener", "com.lisz.controller.filter"})
 public class DubboOaConsumerApplication {
 
 	public static void main(String[] args) {
