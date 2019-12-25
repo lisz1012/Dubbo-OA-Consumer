@@ -42,7 +42,7 @@ public class WeChatAuthFilter implements Filter {
 		User user = (User)request.getSession().getAttribute("user");
 		if (null == user) {
 			String uri = request.getRequestURI();
-			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + weChatConfig.getAppID() + "&redirect_uri=http://duu3ys.natappfree.cc/auth?uri=" + uri + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect\n";
+			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + weChatConfig.getAppID() + "&redirect_uri=http://yhcdtx.natappfree.cc/auth?uri=" + uri + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect\n";
 			response.sendRedirect(url);
 		} else {
 			LOGGER.info("user: " + ToStringBuilder.reflectionToString(user));
