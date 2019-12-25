@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lisz.entity.WeChatConfig;
 
 import weixin.popular.api.MessageAPI;
-import weixin.popular.bean.message.EventMessage;
 import weixin.popular.bean.message.templatemessage.TemplateMessage;
 import weixin.popular.bean.message.templatemessage.TemplateMessageItem;
 import weixin.popular.bean.message.templatemessage.TemplateMessageResult;
 import weixin.popular.support.TokenManager;
-import weixin.popular.util.XMLConverUtil;
 
 @RestController
 @RequestMapping("/message")
@@ -34,13 +32,13 @@ public class TemplateMessageController {
 		/*InputStream inputStream = request.getInputStream();
 		EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class, inputStream);*/
 		TemplateMessage templateMessage = new TemplateMessage();
-		templateMessage.setUrl(weChatConfig.getBaseDomain() + "/profile/my");
-		templateMessage.setTemplate_id(weChatConfig.getTemplateId());
-		templateMessage.setTouser(weChatConfig.getUsername());
+		templateMessage.setUrl(weChatConfig.getBaseDomain() + "/profile/my");//点击（详情）后用户微信跳转到哪个页面
+		templateMessage.setTemplate_id(weChatConfig.getTemplateId());//微信通知的那个小方块
+		templateMessage.setTouser(weChatConfig.getUsername());//发给哪个用户
 		
 		TemplateMessageItem item = new TemplateMessageItem("李老师的系统架构设计课要开始啦！", "#173177");
 		LinkedHashMap<String, TemplateMessageItem> map = new LinkedHashMap<>();
-		map.put("course", item);
+		map.put("course", item); //微信UI里面用{{course.DATA}}定义的模版的course占位符的内容及其字体颜色
 		templateMessage.setData(map);
 		TemplateMessageResult result = MessageAPI.messageTemplateSend(TokenManager.getDefaultToken(), templateMessage);
 		
