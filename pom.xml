@@ -115,7 +115,13 @@
 		    <artifactId>jaxb-runtime</artifactId>
 		    <version>2.3.2</version>
 		</dependency>
-	
+		
+		<!-- Swagger -->
+		<dependency>
+    <groupId>com.spring4all</groupId>
+	    <artifactId>swagger-spring-boot-starter</artifactId>
+	    <version>1.9.0.RELEASE</version>
+	</dependency>
 	
 	
 	
