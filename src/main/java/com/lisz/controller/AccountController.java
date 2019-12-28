@@ -27,6 +27,8 @@ import com.lisz.entity.Account;
 import com.lisz.entity.SysConfig;
 import com.lisz.service.AccountService;
 
+import io.swagger.annotations.Api;
+
 /**
  * 用户账号相关
  * @author shuzheng
@@ -34,6 +36,7 @@ import com.lisz.service.AccountService;
  */
 @Controller // 写@RestController里面就没法跳转页面了
 @RequestMapping("/account")
+@Api(tags = {"用户管理"})
 public class AccountController {
 	private static final String PROFILE_URL_PREFIX = "/Users/shuzheng/Documents/upload/";
 	
@@ -88,7 +91,7 @@ public class AccountController {
 		return "account/list";
 	}
 	
-	@RequestMapping("delete")
+	@PostMapping("delete")
 	@ResponseBody // 不需要页面，直接返回JSON数据,前后端分离之后都要这么做
 	public ResponseStatus delete(@RequestParam Integer id) {
 		Account account = accountService.findById(id);
@@ -99,7 +102,7 @@ public class AccountController {
 		return status;
 	}
 	
-	@RequestMapping("updatePasswordById")
+	@PostMapping("updatePasswordById")
 	@ResponseBody // 不需要页面，直接返回JSON数据
 	public ResponseStatus updatePasswordById(@RequestParam Integer id, @RequestParam String newPassword) {
 		Account account = accountService.findById(id);
